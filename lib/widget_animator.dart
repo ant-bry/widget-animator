@@ -7,7 +7,8 @@ class Animator extends StatefulWidget {
   final Duration duration;
   final Curve curves;
 
-  Animator(this.child, this.time, {this.duration, this.curves});
+  Animator(this.child, this.time,
+      {required this.duration, required this.curves});
 
   @override
   _AnimatorState createState() => _AnimatorState();
@@ -15,9 +16,9 @@ class Animator extends StatefulWidget {
 
 class _AnimatorState extends State<Animator>
     with SingleTickerProviderStateMixin {
-  Timer _timer;
-  AnimationController _animationController;
-  Animation _animation;
+  late Timer _timer;
+  late AnimationController _animationController;
+  late Animation _animation;
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _AnimatorState extends State<Animator>
     return AnimatedBuilder(
       animation: _animation,
       child: widget.child,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Opacity(
           opacity: _animation.value,
           child: Transform.translate(
@@ -54,10 +55,10 @@ class _AnimatorState extends State<Animator>
   }
 }
 
-Timer timer;
+Timer? timer;
 Duration duration = Duration();
 Duration _wait() {
-  if (timer == null || !timer.isActive) {
+  if (timer == null || !timer!.isActive) {
     timer = Timer(Duration(microseconds: 120), () {
       duration = Duration();
     });
@@ -78,7 +79,7 @@ class WidgetAnimator extends StatelessWidget {
   WidgetAnimator({
     this.duration = const Duration(milliseconds: 290),
     this.curve = Curves.easeInOut,
-    @required this.child,
+    required this.child,
   });
 
   @override
